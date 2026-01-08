@@ -1,0 +1,155 @@
+menu "Board Support Package"
+
+    config BSP_ERROR_CHECK
+        bool "Enable error check in BSP"
+        default y
+        help
+            Error check assert the application before returning the error code.
+
+    menu "I2C"
+        config BSP_I2C_NUM
+            int "I2C peripheral index"
+            default 1
+            range 0 1
+            help
+                ESP32 has two I2C peripherals, pick the one you want to use.
+
+        config BSP_I2C_FAST_MODE
+            bool "Enable I2C fast mode"
+            default y
+            help
+                I2C has two speed modes: normal (100kHz) and fast (400kHz).
+
+        config BSP_I2C_CLK_SPEED_HZ
+            int
+            default 400000 if BSP_I2C_FAST_MODE
+            default 100000
+    endmenu
+
+    menu "Display"
+        config BSP_DISPLAY_BRIGHTNESS_LEDC_CH
+            int "LEDC channel index"
+            default 1
+            range 0 7
+            help
+                LEDC channel is used to generate PWM signal that controls display brightness.
+                Set LEDC index that should be used.
+    endmenu
+
+    menu "Speaker"
+        choice BSP_SPEAKER_DAC_WRITE_MODE
+            prompt "Select DAC writing mode"
+            default BSP_SPEAKER_DAC_WRITE_SYNC
+            help
+                DAC writes data synchronously or asynchronously
+
+            config BSP_SPEAKER_DAC_WRITE_SYNC
+                bool "Synchronous transmitting"
+            config BSP_SPEAKER_DAC_WRITE_ASYNC
+                bool "Asynchronous transmitting"
+        endchoice
+
+        config BSP_SPEAKER_SAMPLE_RATE
+            int "The audio sample rate (Unit: Hz)"
+            default 48000
+            help
+                The audio sample rate
+    endmenu
+
+    menu "SPIFFS - Virtual File System"
+        config BSP_SPIFFS_FORMAT_ON_MOUNT_FAIL
+            bool "Format SPIFFS if mounting fails"
+            default n
+            help
+                Format SPIFFS if it fails to mount the filesystem.
+
+        config BSP_SPIFFS_MOUNT_POINT
+            string "SPIFFS mount point"
+            default "/spiffs"
+            help
+                Mount point of SPIFFS in the Virtual File System.
+
+        config BSP_SPIFFS_PARTITION_LABEL
+            string "Partition label of SPIFFS"
+            default "storage"
+            help
+                Partition label which stores SPIFFS.
+
+        config BSP_SPIFFS_MAX_FILES
+            int "Max files supported for SPIFFS VFS"
+            default 5
+            help
+                Supported max files for SPIFFS in the Virtual File System.
+    endmenu
+
+    menu "SD card - Virtual File System"
+        config BSP_SD_FORMAT_ON_MOUNT_FAIL
+            bool "Format SD card if mounting fails"
+            default n
+            help
+                The SDMMC host will format (FAT) the SD card if it fails to mount the filesystem.
+
+        config BSP_SD_MOUNT_POINT
+            string "SD card mount point"
+            default "/sdcard"
+            help
+                Mount point of the SD card in the Virtual File System
+
+    endmenu
+
+    menu "Buttons"
+        config BSP_BUTTONS_NUM
+            int
+            prompt "Number of buttons in BSP"
+            default 2
+            range 0 2
+        
+        menu "Button 1 - (IO25)"
+            depends on BSP_BUTTONS_NUM > 0
+            choice BSP_BUTTON_1_TYPE
+                prompt "Button type"
+                default BSP_BUTTON_1_TYPE_GPIO
+                help
+                    Select a button type GPIO or ADC
+
+                config BSP_BUTTON_1_TYPE_GPIO
+                    bool "GPIO Button"
+                config BSP_BUTTON_1_TYPE_ADC
+                    bool "ADC Button"
+            endchoice
+            
+            config BSP_BUTTON_1_ADC_VALUE
+                depends on BSP_BUTTON_1_TYPE_ADC
+                int "Button 1 ADC Value"
+                default 2000
+                range 0 2500
+                help
+                    The ADC middle value for button 1.
+        endmenu
+        
+        menu "Button 2 - (IO32)"
+            depends on BSP_BUTTONS_NUM > 1
+            choice
+                prompt "Button type"
+                default BSP_BUTTON_2_TYPE_GPIO
+                help
+                    Select a button type GPIO or ADC
+
+                config BSP_BUTTON_2_TYPE_GPIO
+                    bool "GPIO Button"
+                config BSP_BUTTON_2_TYPE_ADC
+                    bool "ADC Button"
+            endchoice
+            
+            config BSP_BUTTON_2_ADC_VALUE
+                depends on BSP_BUTTON_2_TYPE_ADC
+                int "Button 2 ADC Value"
+                default 2000
+                range 0 2500
+                help
+                    The ADC middle value for button 2.  
+        endmenu
+         
+    endmenu
+
+endmenu
