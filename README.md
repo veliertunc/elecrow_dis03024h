@@ -1,7 +1,7 @@
 # BSP: Elecrow CrowPanel 2.4-inch
 
-| [HW Reference](https://www.elecrow.com/wiki/esp32-display-242727-intelligent-touch-screen-wi-fi26ble-240320-hmi-display.html) | [HOW TO USE API](API.md) | [EXAMPLES](#compatible-bsp-examples) | ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg) |
-| --- | --- | --- | -- |
+| [HW Reference](https://www.elecrow.com/wiki/esp32-display-242727-intelligent-touch-screen-wi-fi26ble-240320-hmi-display.html) | [HOW TO USE API](API.md) | [EXAMPLES](#compatible-bsp-examples) [![Component Registry](https://components.espressif.com/components/veliertunc/elecrow_dis03024h/badge.svg)](https://components.espressif.com/components/veliertunc/elecrow_dis03024h) | ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg) |
+| --- | --- | --- | --- | -- |
 
 > [!WARNING]
 > The SD card is not working simultaneously with the LCD screen. We are working on a fix.
